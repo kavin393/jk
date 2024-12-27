@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .blog-post {
+            background: #ffffff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .blog-post h2 {
+            margin-top: 0;
+        }
+        .comments {
+            margin-top: 20px;
+        }
+        .comment {
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .comment-form {
+            margin-top: 20px;
+        }
+        .comment-form textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .comment-form button {
+            background: #35424a;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .comment-form button:hover {
+            background: #1d2930;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Blog</h1>
+    </header>
+
+    <div class="container">
+        <!-- Blog Post -->
+        <div class="blog-post">
+            <h2>Dinosaurs: The Giants of the Past</h2>
+            <p>Dinosaurs were a diverse group of reptiles that lived during the Mesozoic Era, which spanned approximately 180 million years. These magnificent creatures dominated ecosystems ranging from lush forests to arid deserts.</p>
+            <p>One of the most famous dinosaurs, the Tyrannosaurus rex, is known for its massive size and formidable teeth. Herbivorous dinosaurs, such as the gentle Brachiosaurus, played a key role in maintaining the balance of their ecosystems. Fossil evidence suggests that modern birds are descendants of certain theropod dinosaurs, showcasing their evolutionary legacy.</p>
+            <p>Today, paleontologists continue to uncover new species and insights, unraveling the mysteries of life millions of years ago.</p>
+
+            <!-- Comments Section -->
+            <div class="comments">
+                <h3>Comments</h3>
+                <div id="comment-list">
+                    <!-- Dynamic comments will be added here -->
+                </div>
+            </div>
+
+            <!-- Comment Form -->
+            <div class="comment-form">
+                <h3>Leave a Comment</h3>
+                <form id="comment-form">
+                    <textarea id="comment-input" placeholder="Write your comment here..." required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load comments from local storage
+        function loadComments() {
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            const commentList = document.getElementById('comment-list');
+            commentList.innerHTML = '';
+            comments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment';
+                commentDiv.innerHTML = `<p><strong>${comment.name}:</strong> ${comment.text}</p>`;
+                commentList.appendChild(commentDiv);
+            });
+        }
+
+        // Handle form submission
+        document.getElementById('comment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const commentInput = document.getElementById('comment-input');
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+                const comments = JSON.parse(localStorage.getItem('comments')) || [];
+                comments.push({ name: 'Anonymous', text: commentText });
+                localStorage.setItem('comments', JSON.stringify(comments));
+                commentInput.value = '';
+                loadComments();
+            }
+        });
+
+        // Initial load
+        loadComments();
+    </script>
+</body>
+</html>
